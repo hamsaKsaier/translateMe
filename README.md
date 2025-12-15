@@ -1,6 +1,13 @@
 # 🌍 TranslateMe - AI-Powered Translation Issue Detection
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-success.svg)](https://github.com/hamsaKsaier/translateMe)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue.svg)](https://chrome.google.com/webstore)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
 A powerful Chrome extension that automatically detects translation issues on websites using advanced AI technology. TranslateMe helps developers and content managers identify texts that need translation, ensuring consistent multilingual user experiences.
+
+⭐ **Star this repo if you find it useful!**
 
 ## ✨ Features
 
