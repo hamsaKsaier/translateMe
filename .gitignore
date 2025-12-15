@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Environment and configuration files
+config/supabase.config.js
+config/api.config.js
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+.cursor/debug.log
+
+# Chrome extension
+*.crx
+*.pem
+
+# Test files
+test-results/
+coverage/
+
+# Deployment
+deploy/
+*.zip
+

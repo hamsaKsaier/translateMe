@@ -1,0 +1,27 @@
+{
+    "name": "translateme-prompt-tester",
+    "version": "1.0.0",
+    "description": "Test suite for TranslateMe extension prompt accuracy",
+    "main": "test-ai-prompts.js",
+    "scripts": {
+        "test": "node run-prompt-tests.js",
+        "test:prompts": "node test-prompt-accuracy.js",
+        "test:ai": "node test-ai-prompts.js"
+    },
+    "keywords": [
+        "translation",
+        "ai",
+        "prompt",
+        "testing",
+        "accuracy"
+    ],
+    "author": "TranslateMe Team",
+    "license": "MIT",
+    "dependencies": {
+        "@supabase/supabase-js": "^2.75.0",
+        "node-fetch": "^2.6.7"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}

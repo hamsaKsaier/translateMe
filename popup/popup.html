@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TranslateMe - Translation Tester</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <!-- Auth Check Section - Hidden by default -->
+    <div id="auth-check-container" class="auth-check-container" style="display: none;">
+        <div class="auth-check-content">
+            <div class="spinner-large"></div>
+            <p>Checking authentication...</p>
+        </div>
+    </div>
+
+    <!-- Main Container - Hidden until auth is verified -->
+    <div class="container" id="main-container" style="display: none;">
+        <div class="header">
+            <h1>🌍 TranslateMe</h1>
+            <p class="subtitle">Translation Issue Detector</p>
+
+            <!-- Usage Counter -->
+            <div id="usage-counter" class="usage-counter" style="display: none;">
+                <div class="usage-stats">
+                    <span id="scans-used" class="scans-used">0</span>/<span id="scans-limit"
+                        class="scans-limit">100</span> scans
+                </div>
+                <div id="trial-status" class="trial-status">Trial: <span id="days-remaining">7</span> days left</div>
+            </div>
+
+            <!-- Free Plan Forever Message -->
+            <div id="free-plan-forever" class="free-plan-forever" style="display: none;">
+                <div class="free-plan-content">
+                    <div class="free-plan-icon">🎉</div>
+                    <h3>Free Plan Forever!</h3>
+                    <p>You have <strong>unlimited scans</strong> with our free plan!</p>
+                    <!-- Pro upgrade button hidden for now (kept for future use) -->
+                    <!-- <button id="upgrade-to-pro-btn" class="upgrade-to-pro-button" style="display: none;">🚀 Unlock Pro Power</button> -->
+                </div>
+
+                <!-- Pro Plan Upgrade Section - Hidden by default, appears directly under free plan -->
+                <div id="pro-plan-upgrade" class="pro-plan-upgrade" style="display: none;">
+                    <div class="upgrade-content">
+                        <div class="upgrade-icon">🚀</div>
+                        <h3>Join 10,000+ Pro Users!</h3>
+                        <p>Transform your translation workflow with powerful features that save hours every week.</p>
+
+                        <div class="upgrade-features">
+                            <div class="feature">⚡ Auto-scan entire websites in seconds</div>
+                            <div class="feature">🎯 99.9% accuracy with AI-powered detection</div>
+                            <div class="feature">📊 Detailed analytics & export reports</div>
+                            <div class="feature">🚀 Priority support & instant responses</div>
+                            <div class="feature">⚙️ Bulk processing for large projects</div>
+                        </div>
+
+                        <div class="upgrade-pricing">
+                            <div class="price">$9.99<span class="period">/month</span></div>
+                            <div class="price-note">Less than a coffee per day • Cancel anytime</div>
+                        </div>
+
+                        <p class="pro-note">Note: Pro plan details shown are mock data; updates coming soon.</p>
+
+                        <!-- Email Input Form -->
+                        <div class="upgrade-form">
+                            <div class="form-group">
+                                <label for="upgrade-email">Be the first to know when Pro launches:</label>
+                                <input type="email" id="upgrade-email" class="upgrade-email-input"
+                                    placeholder="Enter your email for early access" required>
+                            </div>
+                            <div class="form-actions">
+                                <button id="send-upgrade-request-btn" class="upgrade-button">🚀 Get Early
+                                    Access</button>
+                                <button id="dismiss-upgrade-btn" class="dismiss-button">Maybe Later</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-section">
+            <div id="status" class="status">Ready to scan</div>
+        </div>
+
+        <div class="language-config">
+            <label for="target-language">Expected Language:</label>
+            <select id="target-language" class="language-selector">
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="ar">Arabic</option>
+            </select>
+        </div>
+
+        <div class="auto-scan-config">
+            <label class="auto-scan-toggle">
+                <input type="checkbox" id="auto-scan-toggle">
+                <span class="toggle-slider"></span>
+                🔄 Auto-scan current website
+            </label>
+        </div>
+
+
+        <div class="controls">
+            <button id="scan-btn" class="scan-button">🔍 Scan Page</button>
+            <button id="highlight-btn" class="highlight-button">🎨 Highlight Issues</button>
+            <button id="clean-btn" class="clean-button">🧹 Clean Results</button>
+        </div>
+
+
+
+        <div class="issues-section">
+            <div class="issues-header">
+                <h3>Translation Issues</h3>
+                <span id="issue-count" class="issue-count">0 issues</span>
+            </div>
+
+            <div class="filter-buttons">
+                <button id="filter-all" class="filter-button">All</button>
+                <button id="filter-static" class="filter-button active">Static</button>
+                <button id="filter-dynamic" class="filter-button">Dynamic</button>
+            </div>
+
+            <div id="issues-list" class="issues-list">
+                <div class="no-issues">Click "Scan Page" to find translation issues</div>
+            </div>
+        </div>
+
+        <div class="progress-section" id="progress-section" style="display: none;">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="progress-text" class="progress-text">Scanning...</div>
+        </div>
+
+        <div class="footer">
+            <button id="clear-btn" class="clear-button">Clear All</button>
+            <button id="export-btn" class="export-button">Export</button>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <p class="support-text">Made with ❤️ - Support the project</p>
+            <button id="donation-btn" class="donation-button">☕ Buy Me a Coffee</button>
+        </div>
+
+        <!-- User Info Section -->
+        <div class="user-info-section">
+            <div class="user-info">
+                <span id="user-email" class="user-email"></span>
+                <button id="sign-out-btn" class="sign-out-button">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Logger first -->
+    <script src="../libs/logger.js"></script>
+    <!-- Load Supabase client -->
+    <script src="../config/supabase.config.js"></script>
+    <script src="../libs/supabase-local.js"></script>
+    <script src="../config/api.config.js"></script>
+    <script src="../auth/authService.js"></script>
+    <script src="../services/errorHandler.js"></script>
+    <script src="../services/mockUsageTracker.js"></script>
+    <script src="../services/usageTracker.js"></script>
+    <script src="../services/emailNotification.js"></script>
+    <script src="popup.js"></script>
+    <script src="popup-simple.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+/* TranslateMe Extension - Content Script Styles */
+
+/* Static UI Issues - Red highlight */
+.translateme-issue-static {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    border: 2px solid #dc3545 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3) !important;
+    position: relative !important;
+}
+
+.translateme-issue-static::before {
+    content: "🔧 Static Issue" !important;
+    position: absolute !important;
+    top: -25px !important;
+    left: 0 !important;
+    background: #dc3545 !important;
+    color: white !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    border-radius: 3px !important;
+    font-family: Arial, sans-serif !important;
+    z-index: 10000 !important;
+    white-space: nowrap !important;
+}
+
+/* Dynamic Content Issues - Blue highlight */
+.translateme-issue-dynamic {
+    background-color: rgba(0, 123, 255, 0.2) !important;
+    border: 2px solid #007bff !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3) !important;
+    position: relative !important;
+}
+
+.translateme-issue-dynamic::before {
+    content: "📝 Dynamic Issue" !important;
+    position: absolute !important;
+    top: -25px !important;
+    left: 0 !important;
+    background: #007bff !important;
+    color: white !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    border-radius: 3px !important;
+    font-family: Arial, sans-serif !important;
+    z-index: 10000 !important;
+    white-space: nowrap !important;
+}
+
+/* Mixed Content Issues - Orange highlight */
+.translateme-issue-mixed {
+    background-color: rgba(255, 193, 7, 0.2) !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3) !important;
+    position: relative !important;
+}
+
+.translateme-issue-mixed::before {
+    content: "🌐 Mixed Issue" !important;
+    position: absolute !important;
+    top: -25px !important;
+    left: 0 !important;
+    background: #ffc107 !important;
+    color: #212529 !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    border-radius: 3px !important;
+    font-family: Arial, sans-serif !important;
+    z-index: 10000 !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure labels don't interfere with page layout */
+.translateme-issue-static,
+.translateme-issue-dynamic,
+.translateme-issue-mixed {
+    margin-top: 25px !important;
+}
+
+/* Hover effects for better visibility */
+.translateme-issue-static:hover {
+    background-color: rgba(220, 53, 69, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.4) !important;
+}
+
+.translateme-issue-dynamic:hover {
+    background-color: rgba(0, 123, 255, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4) !important;
+}
+
+.translateme-issue-mixed:hover {
+    background-color: rgba(255, 193, 7, 0.3) !important;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4) !important;
+}

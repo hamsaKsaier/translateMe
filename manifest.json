@@ -1,0 +1,81 @@
+{
+    "manifest_version": 3,
+    "name": "TranslateMe - Translation Testing Extension",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtpUCYB5uWhaEz/N0vXAZkEidhbyHfBB3pC7xQh8XjWkIu0vZ6tJFfn3lXp4OUb2wKQ5gQxsGXX0fNyduzshxcx4gPYNPaxAd1kkLAIyd6UZTijGbh4xCTg/1obzZ3x7MrOecX97DBySSumWNmDYJ06LMm5mqVHQmnaDPKsX4pKjlO9SZXuw7lpQ7++YaO+48tum4kYiFNcB3kg0HNAeLW6qIROR81/RnjIyGY4Gkz8aa04vXTPxE2xa5bVm3nk8Zi+dNiKjKH9B2UvfL7dK2zXqJS1MjBsb2JPFEGWoj+eotepQ4JRIMAIfq8ZSJFydl/eyNL92/jzIftXwIOk4G0QIDAQAB",
+    "version": "1.0.3",
+    "description": "Automatically detect translation issues in web applications with AI-powered analysis.",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "scripting",
+        "identity",
+        "tabs",
+        "contextMenus",
+        "notifications"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "TranslateMe - Translation Tester"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "libs/logger.js",
+                "libs/franc.js",
+                "libs/languageDetector.js",
+                "libs/supabase-local.js",
+                "config/supabase.config.js",
+                "config/api.config.js",
+                "services/usageTracker.js",
+                "content/content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "service_worker": "background/background.js"
+    },
+    "icons": {
+        "16": "assets/icons/icon16.png",
+        "48": "assets/icons/icon48.png",
+        "128": "assets/icons/icon128.png"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "libs/*.js",
+                "content/content.css",
+                "auth/*.html",
+                "auth/*.js",
+                "auth/*.css",
+                "config/*.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "commands": {
+        "scan-page": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+S",
+                "mac": "Command+Shift+S"
+            },
+            "description": "Scan current page for translation issues"
+        }
+    },
+    "oauth2": {
+        "client_id": "YOUR_GOOGLE_OAUTH_CLIENT_ID",
+        "scopes": [
+            "openid",
+            "email",
+            "profile"
+        ]
+    }
+}
