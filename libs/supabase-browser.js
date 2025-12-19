@@ -1,1 +1,0 @@
-Redirecting to /@supabase/supabase-js@2.75.0/dist/main/index.js

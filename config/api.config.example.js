@@ -1,51 +1,27 @@
-// API Configuration Example for TranslateMe Extension
-// Copy this file to api.config.js and replace with your actual API keys
+// API Configuration Example
+// Copy this file to api.config.js and replace with your actual API key
 
-const API_CONFIG = {
-    // OpenAI Configuration (Optional - kept for future use)
-    // openai: {
-    //     apiKey: 'YOUR_OPENAI_API_KEY',
-    //     model: 'gpt-4o',
-    //     maxTokens: 300,
-    //     temperature: 0.2,
-    //     plan: 'trial'
-    // },
-
-    // OpenRouter Configuration - Get your free API key from https://openrouter.ai/
+// OpenRouter API Configuration (Free DeepSeek access)
+// Get your API key from: https://openrouter.ai/keys
+window.API_CONFIG = {
     openrouter: {
-        apiKey: '', // ⚠️ Set your OpenRouter API key here (get free key from https://openrouter.ai/)
-        model: 'deepseek/deepseek-chat',
-        maxTokens: 200,
-        temperature: 0.3,
-        plan: 'free',
+        apiKey: 'YOUR_OPENROUTER_API_KEY_HERE', // Replace with your OpenRouter API key
+        model: 'deepseek/deepseek-chat',        // DeepSeek model (free)
+        maxTokens: 200,                          // Maximum tokens per response
+        temperature: 0.3,                       // Response creativity (0-1)
         baseUrl: 'https://openrouter.ai/api/v1/chat/completions'
-    },
-
-    // Groq Configuration (Alternative Free Option)
-    groq: {
-        apiKey: '', // ⚠️ Get your free Groq API key from https://console.groq.com/keys if needed
-        model: 'llama-3.1-8b-instant',
-        maxTokens: 200,
-        temperature: 0.3,
-        plan: 'free',
-        baseUrl: 'https://api.groq.com/openai/v1/chat/completions'
-    },
-
-    // Plan-based provider selection
-    planProviders: {
-        trial: 'openrouter',
-        free: 'openrouter',
-        pro: 'openrouter',
-        enterprise: 'openrouter'
-    },
-
-    // Fallback behavior when AI fails
-    fallbackBehavior: 'static_issue' // 'static_issue', 'static_no_issue', or 'skip'
+    }
 };
 
-// Export for use in content script
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = API_CONFIG;
-} else {
-    window.API_CONFIG = API_CONFIG;
-}
+// Alternative: OpenAI Configuration (if you prefer OpenAI)
+// window.API_CONFIG = {
+//     openai: {
+//         apiKey: 'YOUR_OPENAI_API_KEY_HERE',
+//         model: 'gpt-4o',
+//         maxTokens: 200,
+//         temperature: 0.3
+//     }
+// };
+
+// Note: The extension currently uses OpenRouter/DeepSeek by default (free API)
+// You can modify content/content.js to support other providers if needed

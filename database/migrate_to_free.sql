@@ -72,3 +72,7 @@ SELECT id, email, current_plan, is_trial_active
 FROM users
 WHERE current_plan = 'trial' OR is_trial_active = true;
 
+
+
+
+

@@ -79,25 +79,8 @@ class UsageTracker {
 
     // Create a local Supabase client for content script context
     createLocalSupabaseClient() {
-        const supabaseUrl = (typeof SUPABASE_CONFIG !== 'undefined' && SUPABASE_CONFIG.url) || null;
-        const supabaseKey = (typeof SUPABASE_CONFIG !== 'undefined' && SUPABASE_CONFIG.anonKey) || null;
-
-        if (!supabaseUrl || !supabaseKey) {
-            const missing = [];
-            if (!supabaseUrl) missing.push('url');
-            if (!supabaseKey) missing.push('anonKey');
-            const message = `Supabase config missing: ${missing.join(', ')}. Provide config/supabase.config.js (not committed) with your project values.`;
-            console.error(`❌ UsageTracker: ${message}`);
-            return {
-                rpc: async () => ({ data: null, error: new Error(message) }),
-                from: () => ({
-                    select: () => ({
-                        eq: async () => ({ data: null, error: new Error(message) })
-                    }),
-                    insert: async () => ({ data: null, error: new Error(message) })
-                })
-            };
-        }
+        const supabaseUrl = 'https://ikrbjqzsrubizrranzjt.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcmJqcXpzcnViaXpycmFuemp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NTcyODQsImV4cCI6MjA3NDEzMzI4NH0.d_yD-Nl0Fmgtsum3X3g0t1vfRVfTOwzaGZsceGMG430';
 
         return {
             rpc: async (functionName, params) => {
@@ -180,21 +163,31 @@ class UsageTracker {
 
             if (existingUser) {
                 console.log('👤 User already exists in database:', existingUser.email);
-                // All users are on free plan now - no trial checks needed
-            } else {
-                console.log('👤 Creating new user in database with free plan...');
 
-                // Create new user with free plan (no trial period)
-                const planStartDate = new Date();
+                // Check if trial has expired
+                if (existingUser.is_trial_active) {
+                    const trialEndDate = new Date(existingUser.trial_end_date);
+                    if (new Date() > trialEndDate) {
+                        // Trial expired, update user status
+                        await this.updateUserTrialStatus(false);
+                        console.log('⏰ Trial expired, user moved to free plan');
+                    }
+                }
+            } else {
+                console.log('👤 Creating new user in database...');
+
+                // Create new user
+                const trialStartDate = new Date();
+                const trialEndDate = new Date(trialStartDate.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
                 const userData = {
                     google_id: this.currentUser.id,
                     email: this.currentUser.email,
                     full_name: this.currentUser.user_metadata?.full_name || null,
                     avatar_url: this.currentUser.user_metadata?.avatar_url || null,
-                    current_plan: 'free',
-                    plan_start_date: planStartDate.toISOString(),
-                    is_trial_active: false
+                    trial_start_date: trialStartDate.toISOString(),
+                    trial_end_date: trialEndDate.toISOString(),
+                    is_trial_active: true
                 };
 
                 console.log('📝 User data to insert:', userData);
@@ -212,16 +205,13 @@ class UsageTracker {
 
                 console.log('✅ User created successfully:', newUser);
 
-                // Create free plan subscription record (unlimited scans)
+                // Create trial subscription record
                 const subscriptionData = {
                     user_id: newUser.id,
-                    plan_type: 'free',
+                    plan_type: 'trial',
                     status: 'active',
-                    start_date: planStartDate.toISOString(),
-                    end_date: null, // Free plan is forever, no end date
-                    scans_included: -1, // -1 indicates unlimited scans
-                    scans_used: 0,
-                    monthly_reset_date: null // No monthly reset needed for unlimited plan
+                    start_date: trialStartDate.toISOString(),
+                    end_date: trialEndDate.toISOString()
                 };
 
                 console.log('📝 Subscription data to insert:', subscriptionData);
@@ -234,10 +224,10 @@ class UsageTracker {
                     console.error('❌ Error creating subscription:', subscriptionError);
                     // Don't throw here, user was created successfully
                 } else {
-                    console.log('✅ Free plan subscription created successfully');
+                    console.log('✅ Subscription created successfully');
                 }
 
-                console.log('🎉 New user created with free plan (unlimited scans)');
+                console.log('🎉 New user created with 7-day trial');
             }
         } catch (error) {
             console.error('❌ Failed to initialize user:', error);
