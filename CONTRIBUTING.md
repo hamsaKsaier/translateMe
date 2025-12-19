@@ -2,94 +2,72 @@
 
 Thank you for your interest in contributing to TranslateMe! This document provides guidelines and instructions for contributing.
 
-## Getting Started
+## How to Contribute
 
-1. **Fork the repository** on GitHub
-2. **Clone your fork** locally:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/translateMe.git
-   cd translateMe
-   ```
+### Reporting Bugs
 
-3. **Set up your development environment:**
-   - Install dependencies: `npm install`
-   - Copy configuration example files:
-     ```bash
-     cp config/supabase.config.example.js config/supabase.config.js
-     cp config/api.config.example.js config/api.config.js
-     ```
-   - Configure your credentials (see [README.md](README.md) for details)
+If you find a bug, please open an issue on GitHub with:
+- A clear description of the bug
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Browser and extension version
+- Screenshots if applicable
 
-4. **Create a branch** for your changes:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+### Suggesting Features
 
-## Development Setup
+We welcome feature suggestions! Please open an issue with:
+- A clear description of the feature
+- Use cases and benefits
+- Any implementation ideas (optional)
 
-Before you can run the extension, you need to set up:
+### Pull Requests
 
-1. **Supabase Configuration** (`config/supabase.config.js`):
-   - Create a Supabase account and project
-   - Copy your project URL and anonymous key
-   - Update `config/supabase.config.js` with your credentials
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes**
+4. **Test thoroughly** - ensure the extension works in Chrome
+5. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+6. **Push to your branch** (`git push origin feature/amazing-feature`)
+7. **Open a Pull Request**
 
-2. **API Configuration** (`config/api.config.js`):
-   - Get a free API key from [OpenRouter](https://openrouter.ai/) or [Groq](https://console.groq.com/keys)
-   - Update `config/api.config.js` with your API key
+## Development Guidelines
 
-3. **Google OAuth** (`manifest.json`):
-   - Set up Google OAuth credentials
-   - Replace `YOUR_GOOGLE_OAUTH_CLIENT_ID` in `manifest.json`
+### Code Style
 
-**Important:** Never commit your actual configuration files with real credentials. These files are gitignored for security.
+- Follow existing code style and patterns
+- Use meaningful variable and function names
+- Add comments for complex logic
+- Keep functions focused and single-purpose
 
-## Making Changes
+### Testing
 
-1. **Follow the code style** - Use consistent formatting and naming conventions
-2. **Write clear commit messages** - Describe what and why, not how
-3. **Test your changes** - Make sure the extension works as expected
-4. **Update documentation** - If you add features, update the README
+- Test your changes in Chrome browser
+- Test with different websites and languages
+- Verify keyboard shortcuts and context menu work
+- Check that authentication flow works correctly
 
-## Submitting Changes
+### File Structure
 
-1. **Commit your changes:**
-   ```bash
-   git add .
-   git commit -m "Description of your changes"
-   ```
+- Keep related files together
+- Follow the existing directory structure
+- Update documentation if you change functionality
 
-2. **Push to your fork:**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+## Setup for Development
 
-3. **Create a Pull Request** on GitHub:
-   - Go to the original repository
-   - Click "New Pull Request"
-   - Select your branch
-   - Fill out the PR template with details about your changes
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Configure Supabase (see `AUTH_SETUP.md`)
+4. Create `config/api.config.js` from `config/api.config.example.js`
+5. Load the extension in Chrome as unpacked
 
-## Code Guidelines
+## Important Notes
 
-- **Security First**: Never hardcode API keys, secrets, or credentials
-- **Error Handling**: Always handle errors gracefully with user-friendly messages
-- **Comments**: Add comments for complex logic, but keep code self-documenting
-- **Testing**: Test your changes on multiple websites and scenarios
-
-## Reporting Issues
-
-If you find a bug or have a feature request:
-
-1. Check if the issue already exists
-2. Create a new issue with:
-   - Clear title and description
-   - Steps to reproduce (for bugs)
-   - Expected vs actual behavior
-   - Browser and extension version
+- **Never commit** `config/api.config.js` or `config/supabase.config.js` (they contain API keys)
+- Update version in `manifest.json` for significant changes
+- Update `README.md` if you add new features or change setup instructions
 
 ## Questions?
 
-Feel free to open a discussion on GitHub or reach out to the maintainers.
+Feel free to open an issue for questions or discussions. We're happy to help!
 
 Thank you for contributing to TranslateMe! 🎉

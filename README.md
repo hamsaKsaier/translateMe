@@ -1,13 +1,6 @@
 # 🌍 TranslateMe - AI-Powered Translation Issue Detection
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-success.svg)](https://github.com/hamsaKsaier/translateMe)
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue.svg)](https://chrome.google.com/webstore)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-
 A powerful Chrome extension that automatically detects translation issues on websites using advanced AI technology. TranslateMe helps developers and content managers identify texts that need translation, ensuring consistent multilingual user experiences.
-
-⭐ **Star this repo if you find it useful!**
 
 ## ✨ Features
 
@@ -47,34 +40,29 @@ For a quick setup guide, see [QUICK_START.md](QUICK_START.md)
    - Create a Supabase account at [supabase.com](https://supabase.com)
    - Create a new project
    - Copy `config/supabase.config.example.js` to `config/supabase.config.js`
-   - Update `config/supabase.config.js` with your Supabase project URL and anonymous key
+   - Update with your Supabase credentials
    - See [AUTH_SETUP.md](AUTH_SETUP.md) for detailed instructions
 
-4. **Configure API Keys:**
-   - Copy `config/api.config.example.js` to `config/api.config.js`
-   - Get a free API key from [OpenRouter](https://openrouter.ai/) (recommended) or [Groq](https://console.groq.com/keys)
-   - Update `config/api.config.js` with your API key
-
-5. **Set up Google OAuth:**
+4. **Set up Google OAuth:**
    - Follow the instructions in [AUTH_SETUP.md](AUTH_SETUP.md) to configure Google OAuth
-   - Update `manifest.json` with your OAuth client ID (replace `YOUR_GOOGLE_OAUTH_CLIENT_ID`)
+   - Update `manifest.json` with your OAuth credentials
 
-6. **Open Chrome Extensions:**
+5. **Open Chrome Extensions:**
    - Open Chrome browser
    - Navigate to `chrome://extensions/`
    - Enable "Developer mode" (toggle in top-right corner)
 
-7. **Load the extension:**
+6. **Load the extension:**
    - Click "Load unpacked"
    - Select the `translateMe` folder
    - The extension should now appear in your extensions list
    - Copy the Extension ID
 
-8. **Update Google Cloud Console:**
+7. **Update Google Cloud Console:**
    - Update your OAuth credentials with the Extension ID
    - See [AUTH_SETUP.md](AUTH_SETUP.md) for details
 
-9. **Pin the extension:**
+8. **Pin the extension:**
    - Click the puzzle piece icon in Chrome toolbar
    - Pin TranslateMe for easy access
 
@@ -84,24 +72,32 @@ For a quick setup guide, see [QUICK_START.md](QUICK_START.md)
 
 ## ⚙️ Configuration
 
-### Required Configuration Files
+### 1. Get API Keys
 
-Before using the extension, you must set up the following configuration files:
+**OpenAI (Recommended):**
+- Visit [OpenAI API](https://platform.openai.com/api-keys)
+- Create an account and generate an API key
+- Copy your API key (starts with `sk-`)
 
-1. **`config/supabase.config.js`** (copy from `config/supabase.config.example.js`)
-   - Add your Supabase project URL
-   - Add your Supabase anonymous key
+**Groq AI (Alternative):**
+- Visit [Groq Console](https://console.groq.com/keys)
+- Create an account and generate an API key
+- Copy your API key
 
-2. **`config/api.config.js`** (copy from `config/api.config.example.js`)
-   - Add your OpenRouter API key (get free key from [OpenRouter](https://openrouter.ai/))
-   - Or configure Groq API key as alternative
+### 2. Configure the Extension
 
-3. **`manifest.json`**
-   - Replace `YOUR_GOOGLE_OAUTH_CLIENT_ID` with your Google OAuth client ID
+1. **Set up API Key:**
+   - Open `content/content.js`
+   - Find the `getAPIConfig()` method (around line 744)
+   - Replace `'YOUR_OPENAI_API_KEY_HERE'` with your actual OpenAI API key
+   - Save the file
 
-**Note:** These configuration files are gitignored and will not be committed to the repository. Each user must set up their own credentials.
+2. **Set Target Language:**
+   - In the same file, find the `getTargetLanguage()` method (around line 784)
+   - Change `'en'` to your desired target language
+   - Save the file
 
-### Start Scanning:
+3. **Start Scanning:**
    - Navigate to any website
    - Click "Scan Page" to analyze the current page
    - Click "Highlight Issues" to see color-coded highlights
@@ -132,9 +128,9 @@ The extension uses a scientifically tested prompt that establishes the AI as a "
 
 The extension includes comprehensive testing capabilities:
 
-### Test Page
+### Test Website
 
-Open `test-multilingual.html` in your browser to test the extension with various multilingual content:
+Use the `test-website/` directory to test the extension with various multilingual content:
 
 - **French text**: "Rechercher...", "Nos Produits", "Contactez-nous"
 - **Arabic text**: "خدماتنا", "منتجاتنا", "اتصل بنا"
@@ -144,7 +140,7 @@ Open `test-multilingual.html` in your browser to test the extension with various
 ### Manual Testing
 
 1. **Load the extension** in Chrome
-2. **Open the test page** (`test-multilingual.html`)
+2. **Open the test website** (`test-website/index.html` in your browser)
 3. **Click "Scan Page"** to analyze the content
 4. **Check console** for detailed processing logs
 5. **Click "Highlight Issues"** to see color-coded highlights
@@ -176,7 +172,6 @@ translateMe/
 │   ├── franc.js              # Language detection library (legacy)
 │   └── languageDetector.js   # Language detection wrapper (legacy)
 ├── assets/icons/             # Extension icons (16px, 48px, 128px)
-├── test-multilingual.html    # Comprehensive test page
 ├── test-website/             # Test website for development
 ├── AUTH_SETUP.md             # Detailed authentication setup guide
 ├── QUICK_START.md            # Quick start guide
@@ -209,7 +204,7 @@ npm install
 - **`content/content.js`**: Main logic with AI integration, smart batching, and streaming results
 - **`content/content.css`**: Color-coded highlighting styles
 - **`popup/popup.js`**: Popup interface with streaming updates and highlight controls
-- **`test-multilingual.html`**: Comprehensive test page with multilingual content
+- **`test-website/`**: Comprehensive test website with multilingual content
 
 ## 🎨 Usage Examples
 
@@ -225,7 +220,7 @@ npm install
 
 ### Advanced Usage
 
-1. **Use the test page** (`test-multilingual.html`) for testing
+1. **Use the test website** (`test-website/index.html`) for testing
 2. **Check browser console** for detailed processing logs
 3. **Monitor streaming updates** in the popup
 4. **Use different target languages** by modifying the code
@@ -269,8 +264,6 @@ We welcome contributions! Please follow these steps:
 - Add tests for new features
 - Update documentation as needed
 - Ensure all tests pass before submitting
-- **Important:** Never commit configuration files with real API keys or secrets
-- Set up your own `config/supabase.config.js` and `config/api.config.js` from the example files
 
 ## 📄 License
 

@@ -2,11 +2,8 @@
     "name": "translateme-prompt-tester",
     "version": "1.0.0",
     "description": "Test suite for TranslateMe extension prompt accuracy",
-    "main": "test-ai-prompts.js",
+    "main": "manifest.json",
     "scripts": {
-        "test": "node run-prompt-tests.js",
-        "test:prompts": "node test-prompt-accuracy.js",
-        "test:ai": "node test-ai-prompts.js"
     },
     "keywords": [
         "translation",

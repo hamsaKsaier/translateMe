@@ -1,15 +1,8 @@
 // Enhanced Background Script for TranslateMe Extension
 // Console logs are silenced in production - enable dev mode via chrome.storage.local.set({ devMode: true })
 
-// Load Supabase config (provided by config/supabase.config.js, gitignored)
-try {
-    importScripts('../config/supabase.config.js');
-} catch (e) {
-    console.warn('Supabase config not loaded in background script:', e?.message || e);
-}
-
 // Simple console override for background script (service worker context)
-(function () {
+(function() {
     'use strict';
     let devMode = false;
     const originalConsole = {
@@ -21,11 +14,11 @@ try {
     };
 
     function silenceConsole() {
-        console.log = function () { };
-        console.error = function () { };
-        console.warn = function () { };
-        console.info = function () { };
-        console.debug = function () { };
+        console.log = function() {};
+        console.error = function() {};
+        console.warn = function() {};
+        console.info = function() {};
+        console.debug = function() {};
     }
 
     function restoreConsole() {
@@ -72,7 +65,7 @@ chrome.runtime.onInstalled.addListener((details) => {
         title: 'Scan this page with TranslateMe',
         contexts: ['page']
     });
-
+    
     // Verify commands on install
     chrome.commands.getAll((commands) => {
         console.log('🔧 Background: Available commands on install:', commands);
@@ -99,17 +92,8 @@ chrome.action.onClicked.addListener((tab) => {
 // Minimal Supabase RPC helper for background context
 async function callSupabaseRpc(functionName, params) {
     try {
-        const supabaseUrl = (typeof SUPABASE_CONFIG !== 'undefined' && SUPABASE_CONFIG.url) || null;
-        const supabaseKey = (typeof SUPABASE_CONFIG !== 'undefined' && SUPABASE_CONFIG.anonKey) || null;
-
-        if (!supabaseUrl || !supabaseKey) {
-            const missing = [];
-            if (!supabaseUrl) missing.push('url');
-            if (!supabaseKey) missing.push('anonKey');
-            const message = `Supabase config missing: ${missing.join(', ')}. Ensure config/supabase.config.js is provided (not checked into git).`;
-            console.error(`❌ Background: ${message}`);
-            return { data: null, error: new Error(message) };
-        }
+        const supabaseUrl = 'https://ikrbjqzsrubizrranzjt.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcmJqcXpzcnViaXpycmFuemp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NTcyODQsImV4cCI6MjA3NDEzMzI4NH0.d_yD-Nl0Fmgtsum3X3g0t1vfRVfTOwzaGZsceGMG430';
 
         console.log(`🌐 Background: Making RPC call to ${functionName}`, params);
 
@@ -296,7 +280,7 @@ chrome.commands.getAll((commands) => {
 
 chrome.commands.onCommand.addListener((command) => {
     console.log('⌨️ Background: Command received:', command);
-
+    
     // Show notification to confirm command is working
     chrome.notifications.create({
         type: 'basic',
@@ -306,7 +290,7 @@ chrome.commands.onCommand.addListener((command) => {
     }).catch(() => {
         // Notifications permission might not be granted, that's ok
     });
-
+    
     if (command === 'scan-page') {
         console.log('⌨️ Keyboard shortcut: scan-page command triggered');
         // Get active tab and send scan message (same approach as context menu)
@@ -444,27 +428,27 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         // Check if this is an OAuth callback from Supabase
         const redirectUrl = chrome.identity.getRedirectURL();
         console.log('🔍 Checking tab URL:', tab.url, 'against redirect URL:', redirectUrl);
-
+        
         if (tab.url && tab.url.startsWith(redirectUrl)) {
             console.log('🔐 OAuth callback detected:', tab.url);
-
+            
             try {
                 // Extract hash fragment (contains access_token, etc.)
                 const urlObj = new URL(tab.url);
                 const hash = urlObj.hash.substring(1); // Remove #
                 const params = new URLSearchParams(hash);
-
+                
                 const accessToken = params.get('access_token');
                 const refreshToken = params.get('refresh_token');
                 const error = params.get('error');
                 const errorDescription = params.get('error_description');
-
-                console.log('🔐 OAuth params extracted:', {
-                    hasAccessToken: !!accessToken,
+                
+                console.log('🔐 OAuth params extracted:', { 
+                    hasAccessToken: !!accessToken, 
                     hasRefreshToken: !!refreshToken,
-                    error: error
+                    error: error 
                 });
-
+                
                 if (error) {
                     console.error('❌ OAuth error:', error, errorDescription);
                     // Notify popup of error
@@ -472,12 +456,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         action: 'oauthError',
                         error: error,
                         errorDescription: errorDescription
-                    }).catch(() => { });
+                    }).catch(() => {});
                     // Close the OAuth callback tab
-                    chrome.tabs.remove(tabId).catch(() => { });
+                    chrome.tabs.remove(tabId).catch(() => {});
                     return;
                 }
-
+                
                 if (accessToken) {
                     console.log('✅ OAuth tokens received');
                     // Store tokens and notify popup
@@ -496,10 +480,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         }).catch((err) => {
                             console.error('❌ Failed to send OAuth callback message:', err);
                         });
-
+                        
                         // Close the OAuth callback tab after a short delay
                         setTimeout(() => {
-                            chrome.tabs.remove(tabId).catch(() => { });
+                            chrome.tabs.remove(tabId).catch(() => {});
                         }, 500);
                     });
                 } else {
@@ -509,7 +493,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 console.error('❌ Error processing OAuth callback:', err);
             }
         }
-
+        
         // Log tab updates for debugging (only for extension URLs to reduce noise)
         if (tab.url && tab.url.startsWith('chrome-extension://')) {
             console.log('Tab updated:', tab.url);
